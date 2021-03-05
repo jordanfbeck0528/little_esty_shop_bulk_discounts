@@ -1,8 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe 'merchant dashboard' do
+RSpec.describe 'merchant_discounts index' do
   before :each do
+
     @merchant_1 = Merchant.create!(name: 'Hair Care')
+
+    @discount_1 = @merchant_1.discounts.create!(quantity: 1, percentage: 1)
 
     @customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
     @customer_2 = Customer.create!(first_name: 'Cecilia', last_name: 'Jones')
@@ -37,54 +40,20 @@ RSpec.describe 'merchant dashboard' do
     @transaction_6 = Transaction.create!(credit_card_number: 879799, result: 1, invoice_id: @invoice_7.id)
     @transaction_7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_2.id)
 
-    visit merchant_dashboard_index_path(@merchant_1)
+    visit merchant_discounts_path(@merchant_1.id)
   end
 
-  it 'shows the merchant name' do
-    expect(page).to have_content(@merchant_1.name)
-  end
+  it "I see all of my bulk discounts including their
+    percentage discount and quantity thresholds
+    And each bulk discount listed includes a link to its show page" do
 
-  it 'can see a link to my merchant items index' do
-    expect(page).to have_link("Items")
+    within("#bulk_discounts-#{@discount_1.id}") do
+      save_and_open_page
+      expect(page).to have_content(@merchant_1.discounts.first.percentage_threshhold)
+      expect(page).to have_content(@merchant_1.discounts.first.quantity_threshhold)
+      expect(page).to have_link("View your Discounts")
+      expect(page).to have_better_tests__Discount_methods
 
-    click_link "Items"
-
-    expect(current_path).to eq("/merchant/#{@merchant_1.id}/items")
-  end
-
-  it 'can see a link to my merchant invoices index' do
-    expect(page).to have_link("Invoices")
-
-    click_link "Invoices"
-
-    expect(current_path).to eq("/merchant/#{@merchant_1.id}/invoices")
-  end
-
-  it "can see a section for Items Ready to Ship with list of names of items ordered and ids" do
-    within("#items_ready_to_ship") do
-
-      expect(page).to have_content(@item_1.name)
-      expect(page).to have_content(@item_1.invoice_ids)
-
-      expect(page).to have_content(@item_2.name)
-      expect(page).to have_content(@item_2.invoice_ids)
-
-      expect(page).to have_no_content(@item_3.name)
-      expect(page).to have_no_content(@item_3.invoice_ids)
     end
-  end
-
-  it "shows the date that the invoice was created in this format: Monday, July 18, 2019" do
-    expect(page).to have_content(@invoice_1.created_at.strftime("%A, %B %-d, %Y"))
-  end
-
-  it "I see a link to view all my discounts, When I click this link
-    Then I am taken to my bulk discounts index page" do
-# save_and_open_page
-    expect(page).to have_link("View your Discounts")
-
-    click_link("View your Discounts")
-
-    expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
   end
 end
