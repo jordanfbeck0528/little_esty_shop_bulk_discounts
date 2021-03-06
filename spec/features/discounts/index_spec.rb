@@ -44,51 +44,67 @@ RSpec.describe 'merchant_discounts index' do
     visit merchant_discounts_path(@merchant_1.id)
   end
 
-  it "I see all of my bulk discounts including their
-    percentage discount and quantity thresholds
-    And each bulk discount listed includes a link to its show page" do
-# require "pry"; binding.pry
-    within("#bulk_discounts-#{@discount_1.id}") do
-      # save_and_open_page
-      expect(page).to have_content(@merchant_1.discounts.first.percentage_threshhold)
-      expect(page).to have_content(@merchant_1.discounts.first.quantity_threshhold)
-      expect(page).to have_link("View your Discounts")
-      expect(page).to have_content("1.0%")
-    end
+  describe 'I navigate to the merchant_discounts index page' do
 
-    within("#bulk_discounts-#{@discount_2.id}") do
-      expect(page).to have_content(@merchant_1.discounts.first.percentage_threshhold)
-      expect(page).to have_content(@merchant_1.discounts.first.quantity_threshhold)
-      expect(page).to have_link("View your Discounts")
-      expect(page).to have_content("10.0%")
-      expect(page).to have_content("5 or more!")
-    end
-  end
-  it "I see a section with a header of Upcoming Holidays
-    In this section the name and date of the next 3 upcoming
-    US holidays are listed." do
+    it "I see all of my bulk discounts including their
+      percentage discount and quantity thresholds
+      And each bulk discount listed includes a link to its show page" do
+  # require "pry"; binding.pry
+      within("#bulk_discounts-#{@discount_1.id}") do
+        # save_and_open_page
+        expect(page).to have_content(@merchant_1.discounts.first.percentage_threshhold)
+        expect(page).to have_content(@merchant_1.discounts.first.quantity_threshhold)
+        expect(page).to have_link("View your Discounts")
+        expect(page).to have_content("1.0%")
+      end
 
-      # Use the Next Public Holidays Endpoint in the
-      #[Nager.Date API](https://date.nager.at/swagger/index.html)
-
-    within(".row") do
-      # save_and_open_page
-      expect(page).to have_content("Upcoming Holidays!")
-      expect(page).to have_content("Next 3 Upcoming Holidays")
-      expect("Memorial Day").to appear_before("Independence Day")
-      expect("2021-05-31").to appear_before("2021-07-05")
-      expect("Independence Day").to appear_before("Labour Day")
-      expect("2021-07-05").to appear_before("2021-09-06")
+      within("#bulk_discounts-#{@discount_2.id}") do
+        expect(page).to have_content(@merchant_1.discounts.first.percentage_threshhold)
+        expect(page).to have_content(@merchant_1.discounts.first.quantity_threshhold)
+        expect(page).to have_link("View your Discounts")
+        expect(page).to have_content("10.0%")
+        expect(page).to have_content("5 or more!")
+      end
     end
-  end
-  it "When I visit my bulk discounts index, Then I see a
-    link to create a new discount When I click this link
-    Then I am taken to a page to create a new discount" do
+    it "I see a section with a header of Upcoming Holidays
+      In this section the name and date of the next 3 upcoming
+      US holidays are listed." do
 
-    within("#create_new_discount") do
-      expect(page).to have_link("Create New Discount!")
-      click_link("Create New Discount!")
+        # Use the Next Public Holidays Endpoint in the
+        #[Nager.Date API](https://date.nager.at/swagger/index.html)
+
+      within(".row") do
+        # save_and_open_page
+        expect(page).to have_content("Upcoming Holidays!")
+        expect(page).to have_content("Next 3 Upcoming Holidays")
+        expect("Memorial Day").to appear_before("Independence Day")
+        expect("2021-05-31").to appear_before("2021-07-05")
+        expect("Independence Day").to appear_before("Labour Day")
+        expect("2021-07-05").to appear_before("2021-09-06")
+      end
     end
-    expect(current_path).to eq(new_merchant_discount_path(@merchant_1.id))
+    it " I see a link to create a new discount When I click this link
+      Then I am taken to a page to create a new discount" do
+
+      within("#create_new_discount") do
+        expect(page).to have_link("Create New Discount!")
+        click_link("Create New Discount!")
+      end
+      expect(current_path).to eq(new_merchant_discount_path(@merchant_1.id))
+    end
+    it "Next to to each bulk discount I see a link to delete itself
+      When I click this link Then I am redirected back to the bulk
+      discounts index page And I no longer see the discount listed" do
+
+      within("#bulk_discounts-#{@discount_1.id}") do
+        expect(page).to have_link("Delete this Discount!")
+        click_link("Delete this Discount!")
+      end
+      expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
+
+      expect(page).to_not have_content(1.0)
+      expect(page).to_not have_content("1 or more!")
+      save_and_open_page
+    end
   end
 end
