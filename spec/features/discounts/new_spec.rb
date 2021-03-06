@@ -43,7 +43,7 @@ RSpec.describe 'new merchant_discounts' do
 
     visit new_merchant_discount_path(@merchant_1.id)
   end
-  describe 'I navigate to the new merchant_discounts page' do
+  describe 'I navigate to the merchant_discounts new page' do
     it "I see a form to add a new bulk discount, When I fill in the
      form with valid data, Then I am redirected back to the
      bulk discount index, And I see my new bulk discount listed" do
@@ -55,7 +55,7 @@ RSpec.describe 'new merchant_discounts' do
      fill_in "Discount Quantity Threshhold:", with: '12'
 
      click_button("Create This Discount")
-save_and_open_page
+# save_and_open_page
      expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
 
      expect(page).to have_content("15.0")

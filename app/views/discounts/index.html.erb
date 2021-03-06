@@ -23,12 +23,13 @@
     </ul>
   </div>
   <section id="create_new_discount">
-    <p><%=link_to "Create New Discount!", new_merchant_discount_path(@merchant.id)%></p>
+    <p><%=link_to "Create New Discount!", new_merchant_discount_path(@merchant.id)%></p><br><hr>
   </section>
   <%@merchant.discounts.each do |discount|%>
     <section id="bulk_discounts-<%=discount.id%>">
       <p>Right now, you can receive a <%=discount.percentage%>% percent discount, on quantities of <%=discount.quantity%> or more!</p>
       <p><%=link_to "View your Discounts", merchant_discount_path(@merchant.id, discount.id)%></p>
+      <p><%=link_to "Delete this Discount!", merchant_discount_path(@merchant.id, discount.id), method: :delete%></p><br><hr>
     </section>
   <%end%>
 </body>

@@ -39,52 +39,55 @@ RSpec.describe 'merchant dashboard' do
 
     visit merchant_dashboard_index_path(@merchant_1)
   end
+  
+  describe 'I navigate to the merchant dashboard' do
 
-  it 'shows the merchant name' do
-    expect(page).to have_content(@merchant_1.name)
-  end
-
-  it 'can see a link to my merchant items index' do
-    expect(page).to have_link("Items")
-
-    click_link "Items"
-
-    expect(current_path).to eq("/merchant/#{@merchant_1.id}/items")
-  end
-
-  it 'can see a link to my merchant invoices index' do
-    expect(page).to have_link("Invoices")
-
-    click_link "Invoices"
-
-    expect(current_path).to eq("/merchant/#{@merchant_1.id}/invoices")
-  end
-
-  it "can see a section for Items Ready to Ship with list of names of items ordered and ids" do
-    within("#items_ready_to_ship") do
-
-      expect(page).to have_content(@item_1.name)
-      expect(page).to have_content(@item_1.invoice_ids)
-
-      expect(page).to have_content(@item_2.name)
-      expect(page).to have_content(@item_2.invoice_ids)
-
-      expect(page).to have_no_content(@item_3.name)
-      expect(page).to have_no_content(@item_3.invoice_ids)
+    it 'shows the merchant name' do
+      expect(page).to have_content(@merchant_1.name)
     end
-  end
 
-  it "shows the date that the invoice was created in this format: Monday, July 18, 2019" do
-    expect(page).to have_content(@invoice_1.created_at.strftime("%A, %B %-d, %Y"))
-  end
+    it 'can see a link to my merchant items index' do
+      expect(page).to have_link("Items")
 
-  it "I see a link to view all my discounts, When I click this link
-    Then I am taken to my bulk discounts index page" do
-# save_and_open_page
-    expect(page).to have_link("View your Discounts")
+      click_link "Items"
 
-    click_link("View your Discounts")
+      expect(current_path).to eq("/merchant/#{@merchant_1.id}/items")
+    end
 
-    expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
+    it 'can see a link to my merchant invoices index' do
+      expect(page).to have_link("Invoices")
+
+      click_link "Invoices"
+
+      expect(current_path).to eq("/merchant/#{@merchant_1.id}/invoices")
+    end
+
+    it "can see a section for Items Ready to Ship with list of names of items ordered and ids" do
+      within("#items_ready_to_ship") do
+
+        expect(page).to have_content(@item_1.name)
+        expect(page).to have_content(@item_1.invoice_ids)
+
+        expect(page).to have_content(@item_2.name)
+        expect(page).to have_content(@item_2.invoice_ids)
+
+        expect(page).to have_no_content(@item_3.name)
+        expect(page).to have_no_content(@item_3.invoice_ids)
+      end
+    end
+
+    it "shows the date that the invoice was created in this format: Monday, July 18, 2019" do
+      expect(page).to have_content(@invoice_1.created_at.strftime("%A, %B %-d, %Y"))
+    end
+
+    it "I see a link to view all my discounts, When I click this link
+      Then I am taken to my bulk discounts index page" do
+  # save_and_open_page
+      expect(page).to have_link("View your Discounts")
+
+      click_link("View your Discounts")
+
+      expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
+    end
   end
 end
