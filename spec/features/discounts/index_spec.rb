@@ -45,7 +45,6 @@ RSpec.describe 'merchant_discounts index' do
   end
 
   describe 'I navigate to the merchant_discounts index page' do
-
     it "I see all of my bulk discounts including their
       percentage discount and quantity thresholds
       And each bulk discount listed includes a link to its show page" do

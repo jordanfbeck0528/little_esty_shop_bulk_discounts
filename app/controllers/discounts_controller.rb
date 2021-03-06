@@ -10,7 +10,8 @@ class DiscountsController < ApplicationController
   def show
     # require "pry"; binding.pry
     # @merchant = Merchant.find(:id)
-    @merchant = Merchant.find(:merchant_id)
+    @merchant = Merchant.find(params[:merchant_id])
+    @discount = Discount.find(params[:id])
   end
 
   def new
@@ -19,8 +20,17 @@ class DiscountsController < ApplicationController
 
   def create
     # require "pry"; binding.pry
-    Merchant.find(params[:merchant_id]).discounts.create!(discount_params)
+    discount = Merchant.find(params[:merchant_id]).discounts.new(discount_params)
+    # require "pry"; binding.pry
+    discount.save
     redirect_to merchant_discounts_path(params[:merchant_id])
+    # if discount.save
+    #   flash[:notice] = "Bulk discount has been removed!"
+    #   redirect_to merchant_discounts_path(params[:merchant_id])
+    # else
+    #   flash[:notice] = "Unable to remove bulk discount!"
+    #   render :new
+    # end
   end
 
   def destroy
@@ -32,7 +42,7 @@ class DiscountsController < ApplicationController
     #   redirect_to merchant_discounts_path(params[:merchant_id])
     # else
     #   flash[:notice] = "Unable to remove bulk discount!"
-    #   render new_merchant_discount(params[:merchant_id])
+    #   render merchant_discounts_path(params[:merchant_id])
     # end
   end
 

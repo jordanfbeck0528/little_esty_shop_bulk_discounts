@@ -45,21 +45,31 @@ RSpec.describe 'new merchant_discounts' do
   end
   describe 'I navigate to the merchant_discounts new page' do
     it "I see a form to add a new bulk discount, When I fill in the
-     form with valid data, Then I am redirected back to the
-     bulk discount index, And I see my new bulk discount listed" do
+      form with valid data, Then I am redirected back to the
+      bulk discount index, And I see my new bulk discount listed" do
 
-     expect(page).to have_field("Discount Percentage Threshhold:")
-     expect(page).to have_field("Discount Quantity Threshhold:")
+      @merchant_1.discounts.destroy_all
 
-     fill_in "Discount Percentage Threshhold:", with: '15.0'
-     fill_in "Discount Quantity Threshhold:", with: '12'
+      expect(page).to have_field("Discount Percentage Threshhold:")
+      expect(page).to have_field("Discount Quantity Threshhold:")
 
-     click_button("Create This Discount")
-# save_and_open_page
-     expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
+      x = "15.0"
+      y = "12"
 
-     expect(page).to have_content("15.0")
-     expect(page).to have_content("12")
+      fill_in "Discount Percentage Threshhold:", with: x
+      fill_in "Discount Quantity Threshhold:", with: y
+
+      click_button("Create This Discount")
+  # save_and_open_page
+      expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
+
+      @merchant_1.discounts.each do |discount|
+        within("#discount-#{discount.id}") do
+          expect(page).to have_content(x)
+          expect(page).to have_content(y)
+          expect(page).to have_content(discount.id)
+        end
+      end
     end
   end
 end
