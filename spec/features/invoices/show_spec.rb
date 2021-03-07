@@ -95,5 +95,21 @@ RSpec.describe 'invoices show' do
       expect(page).to_not have_content("in progress")
      end
   end
+  it 'should have status as a select field that updates the invoices status' do
+    within("#status-update-#{@i1.id}") do
+      select('cancelled', :from => 'invoice[status]')
+      expect(page).to have_button('Update Invoice')
+      click_button 'Update Invoice'
 
+      expect(current_path).to eq(admin_invoice_path(@i1))
+      expect(@i1.status).to eq('complete')
+    end
+  end
 end
+
+
+# Merchant Invoice Show Page: Total Revenue includes discounts
+#
+# As a merchant
+# When I visit my merchant invoice show page
+# Then I see that the total revenue for my merchant includes bulk discounts in the calculation
