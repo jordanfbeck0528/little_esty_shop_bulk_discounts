@@ -29,3 +29,13 @@ describe 'Admin Merchant Show' do
     expect(page).to have_content('Dang Boiii')
   end
 end
+it 'should have status as a select field that updates the invoices status' do
+  within("#status-update-#{@i1.id}") do
+    select('cancelled', :from => 'invoice[status]')
+    expect(page).to have_button('Update Invoice')
+    click_button 'Update Invoice'
+
+    expect(current_path).to eq(admin_invoice_path(@i1))
+    expect(@i1.status).to eq('complete')
+  end
+end 
