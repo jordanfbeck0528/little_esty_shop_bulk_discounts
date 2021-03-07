@@ -99,11 +99,12 @@ RSpec.describe 'merchant_discounts index' do
         expect(page).to have_link("Delete this Discount!")
         click_link("Delete this Discount!")
       end
+      
       expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
 
       expect(page).to_not have_content(1.0)
       expect(page).to_not have_content("1 or more!")
-      save_and_open_page
+      # save_and_open_page
     end
   end
 end
