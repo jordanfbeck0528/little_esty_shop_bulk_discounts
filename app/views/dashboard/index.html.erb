@@ -11,6 +11,12 @@
 
 <body>
   <div class="row">
+    <p class='ml-auto col-sm-5'>View your Discounts</p>
+    <ul class='ml-auto col-sm-4'>
+      <section id = "view_your_discounts" >
+        <p><%=link_to "View your Discounts", merchant_discounts_path(@merchant.id)%></p>
+      </section>
+    </ul>
     <p class='mr-auto col-sm-5'>Favorite Customers</p>
     <ul class='mr-auto col-sm-4'>
       <% @merchant.favorite_customers.each do |customer| %>
@@ -28,12 +34,6 @@
             <%= item.created_at.strftime("%A, %B %-d, %Y") %></li>
             <% end %>
           </p>
-        </section>
-      </ul>
-    <p class='ml-auto col-sm-5'>View your Discounts</p>
-    <ul class='ml-auto col-sm-4'>
-      <section id = "view_your_discounts" >
-        <p><%=link_to "View your Discounts", merchant_discounts_path(@merchant.id)%></p>
         </section>
       </ul>
   </div>

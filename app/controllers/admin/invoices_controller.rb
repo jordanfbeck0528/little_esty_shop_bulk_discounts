@@ -11,9 +11,13 @@ class Admin::InvoicesController < ApplicationController
   end
 
   def update
-    @invoice.update(invoice_params)
-    flash.notice = 'Invoice Has Been Updated!'
-    redirect_to admin_invoice_path(@invoice)
+    if @invoice.update(invoice_params)
+      flash.notice = 'Invoice Has Been Updated!'
+      redirect_to admin_invoice_path(@invoice)
+    else
+      flash.notice = "All fields must be completed, please try again."
+      render :edit
+    end
   end
 
   private

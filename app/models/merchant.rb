@@ -41,6 +41,7 @@ class Merchant < ApplicationRecord
     .where('result = ?', 1)
     .select('merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS total_revenue')
     .group(:id)
+    .group(:id)
     .order('total_revenue DESC')
     .limit(5)
   end
@@ -56,6 +57,4 @@ class Merchant < ApplicationRecord
     .created_at
     .to_date
   end
-
-  
 end

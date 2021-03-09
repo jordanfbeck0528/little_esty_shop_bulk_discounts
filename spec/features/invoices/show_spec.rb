@@ -94,6 +94,7 @@ RSpec.describe 'invoices show' do
       expect(page).to have_content("cancelled")
       expect(page).to_not have_content("in progress")
      end
+     # save_and_open_page
   end
   # it 'should have status as a select field that updates the invoices status' do
   #   within("#status-update-#{@i1.id}") do
@@ -113,3 +114,12 @@ end
 # As a merchant
 # When I visit my merchant invoice show page
 # Then I see that the total revenue for my merchant includes bulk discounts in the calculation
+
+#
+# instance method to change return of total_revenue call
+# order each merchants discounts by (created_at desc)
+  # for each invoice_item whos merchant offers at least one discount,
+  #   select all @merchant.discounts.where(discount.quantity <= invoice_item.quantity)
+  #   .pluck(discount with qualifying quantity, and max percentage AS best_discount)
+  # if invoice_item.quantity >= best_discount.quantity
+  # update.total_revenue.where(invoice_item.price = item.price.unit_discount)

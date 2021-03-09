@@ -34,4 +34,11 @@ FactoryBot.define do
     merchant
     invoice
   end
+
+  factory :discount do
+    sequence(:name) { |n| "Sweet Discount#{n}" }
+    quantity  { 10 }
+    percentage  { 20 }
+    merchant
+  end
 end
