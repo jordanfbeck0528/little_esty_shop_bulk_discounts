@@ -16,7 +16,7 @@ class Invoice < ApplicationRecord
     invoice_items.sum("unit_price * quantity")
   end
 
-  def total_revenue_after_discounts
+  def total_revenue_lost_to_discounts
     # require "pry"; binding.pry
     invoice_items.joins(:discounts)
     .where('invoice_items.quantity >= discounts.quantity')

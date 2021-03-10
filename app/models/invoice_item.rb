@@ -17,11 +17,11 @@ class InvoiceItem < ApplicationRecord
     Invoice.order(created_at: :asc).find(invoice_ids)
   end
 
-  def optimal_discount
+  def applicable_discount
     discounts.where("#{self.quantity} >= quantity")
   end
 
   def optimal_discount_limit_one
-    optimal_discount.order(percentage: :desc).limit(1).pluck(:id).first
+    applicable_discount.order(percentage: :desc).limit(1).pluck(:id).first
   end
 end

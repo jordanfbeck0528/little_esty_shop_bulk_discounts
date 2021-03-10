@@ -5,7 +5,7 @@ class DiscountsController < ApplicationController
     @merchant = Merchant.find(params[:merchant_id])
     # @merchant = Merchant.find(params[:id])
     @holidays = HolidayService.get_holidays
-    @invoice_item 
+    @invoice_item
   end
 
   def show
@@ -24,28 +24,25 @@ class DiscountsController < ApplicationController
     discount = Merchant.find(params[:merchant_id]).discounts.new(discount_params)
     # require "pry"; binding.pry
     discount.save
-    redirect_to merchant_discounts_path(params[:merchant_id])
-    # if discount.save
-    #   flash[:notice] = "Bulk discount has been removed!"
-    #   redirect_to merchant_discounts_path(params[:merchant_id])
-    # else
-    #   flash[:notice] = "Unable to remove bulk discount!"
-    #   render :new
-    # end
+    # redirect_to merchant_discounts_path(params[:merchant_id])
+    if discount.save
+      flash[:notice] = "Bulk discount has been removed!"
+      redirect_to merchant_discounts_path(params[:merchant_id])
+    else
+      flash[:notice] = "All fields must be completed, please try again."
+      render :new
+    end
   end
 
   def destroy
     merchant = Merchant.find(params[:merchant_id])
     discount = Discount.find(params[:id])
     discount.destroy!
-    redirect_to merchant_discounts_path(merchant.id)
-    # if discount.destroy!
-    #   flash[:notice] = "Bulk discount has been removed!"
-    #   redirect_to merchant_discounts_path(params[:merchant_id])
-    # else
-    #   flash[:notice] = "Unable to remove bulk discount!"
-    #   render merchant_discounts_path(params[:merchant_id])
-    # end
+    # redirect_to merchant_discounts_path(merchant.id)
+    if discount.destroy!
+      flash[:notice] = "Bulk discount has been removed!"
+      redirect_to merchant_discounts_path(params[:merchant_id])
+    end
   end
 
   def edit
@@ -63,8 +60,6 @@ class DiscountsController < ApplicationController
   private
 
   def discount_params
-    #Why does this require not work, with error "undefined method `permit' for "18141":String"?
-    # params.require(:merchant_id).permit(:percentage, :quantity)
     params.permit(:percentage, :quantity)
   end
 end
