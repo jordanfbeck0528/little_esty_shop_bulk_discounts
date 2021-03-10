@@ -107,17 +107,11 @@ RSpec.describe 'invoices show' do
   #   end
   # end
 
+  it 'I see that the total revenue for my merchant includes bulk discounts in the calculation' do
+    visit merchant_invoice_path(@merchant_1, @invoice_1)
 
-  # it 'I see that the total revenue for my merchant includes bulk discounts in the calculation' do
-  #   within("#status-update-#{@i1.id}") do
-  #     select('cancelled', :from => 'invoice[status]')
-  #     expect(page).to have_button('Update Invoice')
-  #     click_button 'Update Invoice'
-  #
-  #     expect(current_path).to eq(admin_invoice_path(@i1))
-  #     expect(@i1.status).to eq('complete')
-  #   end
-  # end
+    expect(page).to have_content(@invoice_1.total_revenue_lost_to_discounts)
+  end
 end
 
 # As a merchant

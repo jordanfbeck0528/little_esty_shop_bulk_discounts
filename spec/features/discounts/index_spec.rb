@@ -50,19 +50,13 @@ RSpec.describe 'merchant_discounts index' do
       And each bulk discount listed includes a link to its show page" do
   # require "pry"; binding.pry
       within("#bulk_discounts-#{@discount_1.id}") do
-        # save_and_open_page
-        expect(page).to have_content(@merchant_1.discounts.first.percentage_threshhold)
-        expect(page).to have_content(@merchant_1.discounts.first.quantity_threshhold)
         expect(page).to have_link("View your Discounts")
-        expect(page).to have_content("1.0%")
+        expect(page).to have_content("Right now, with discounts id: #{@discount_1.id}, you can receive a 1.0% percent discount, on quantities of 1 or more!")
       end
 
       within("#bulk_discounts-#{@discount_2.id}") do
-        expect(page).to have_content(@merchant_1.discounts.first.percentage_threshhold)
-        expect(page).to have_content(@merchant_1.discounts.first.quantity_threshhold)
         expect(page).to have_link("View your Discounts")
-        expect(page).to have_content("10.0%")
-        expect(page).to have_content("5 or more!")
+        expect(page).to have_content("Right now, with discounts id: #{@discount_2.id}, you can receive a 10.0% percent discount, on quantities of 5 or more!")
       end
     end
     it "I see a section with a header of Upcoming Holidays
@@ -96,10 +90,10 @@ RSpec.describe 'merchant_discounts index' do
       discounts index page And I no longer see the discount listed" do
 
       within("#bulk_discounts-#{@discount_1.id}") do
-        expect(page).to have_link("Delete this Discount!")
-        click_link("Delete this Discount!")
+        expect(page).to have_button("Delete this Discount!")
+        click_button("Delete this Discount!")
       end
-      
+
       expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
 
       expect(page).to_not have_content(1.0)
