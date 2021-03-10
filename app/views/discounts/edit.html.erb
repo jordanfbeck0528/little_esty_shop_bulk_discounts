@@ -8,9 +8,9 @@
   <div class="edit-discount-info">
     <%= form_with url: merchant_discount_path(@merchant.id, @discount.id), method: :put do |form| %>
       <%= form.label :percentage, "Discount Percentage Threshhold:" %>
-      <%= form.text_field :percentage %><br><br>
+      <%= form.text_field :percentage, value: @discount.percentage %><br><br>
       <%= form.label :quantity, "Discount Quantity Threshhold:" %>
-      <%= form.text_field :quantity %><br><br>
+      <%= form.text_field :quantity, value: @discount.quantity %><br><br>
       <%= form.submit "Edit This Discount" %>
     <% end %>
   </div>

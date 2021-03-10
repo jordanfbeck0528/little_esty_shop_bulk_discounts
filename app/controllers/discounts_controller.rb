@@ -17,13 +17,14 @@ class DiscountsController < ApplicationController
 
   def create
     discount = Merchant.find(params[:merchant_id]).discounts.new(discount_params)
-    discount.save
+# require "pry"; binding.pry
     if discount.save
-      flash[:notice] = "Bulk discount has been removed!"
+      flash[:notice] = "Bulk discount has been created!"
       redirect_to merchant_discounts_path(params[:merchant_id])
     else
       flash[:notice] = "All fields must be completed, please try again."
-      render :new
+      # render :new
+      redirect_to new_merchant_discount_path(params[:merchant_id])
     end
   end
 

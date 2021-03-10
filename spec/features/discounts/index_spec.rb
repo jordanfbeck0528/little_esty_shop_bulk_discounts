@@ -98,5 +98,10 @@ RSpec.describe 'merchant_discounts index' do
       expect(page).to_not have_content(1.0)
       expect(page).to_not have_content("1 or more!")
     end
+    it 'should display next three holidays' do
+      expect(page).to have_content('Memorial Day')
+      expect(page).to have_content('Independence Day')
+      expect(page).to have_content('Labour Day')
+    end
   end
 end

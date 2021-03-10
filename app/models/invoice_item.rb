@@ -18,6 +18,7 @@ class InvoiceItem < ApplicationRecord
   end
 
   def applicable_discount
+
     discounts.where("#{self.quantity} >= quantity")
   end
 
