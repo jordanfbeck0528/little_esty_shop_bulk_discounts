@@ -50,6 +50,6 @@ RSpec.describe Invoice, type: :model do
 
     expect(@invoice_1.total_revenue).to eq(5700)
     expect(@invoice_1.total_revenue_lost_to_discounts).to eq(1590)
-    expect(@invoice_1.total_revenue - @invoice_1.total_revenue_lost_to_discounts).to eq(4110)
+    expect(@invoice_1.total_revenue_with_discounts).to eq(4110)
   end
 end
