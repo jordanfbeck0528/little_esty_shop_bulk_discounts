@@ -7,10 +7,13 @@ class InvoicesController < ApplicationController
   end
 
   def show
+    # require "pry"; binding.pry
+    # @merchant = Merchant.find(params[:merchant_id])
+    # @discount = Discount.find(params[:id])
     @customer = @invoice.customer
     @invoice_item = InvoiceItem.where(invoice_id: params[:id]).first
-    @invoice_items = InvoiceItem.where(invoice_id: params[:id])
-    @invoice = Invoice.find(params[:id])
+    # @invoice_items = InvoiceItem.where(invoice_id: params[:id])
+    # @invoice = Invoice.find(params[:id])
   end
 
   def update
