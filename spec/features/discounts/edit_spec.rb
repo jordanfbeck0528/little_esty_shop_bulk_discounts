@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'merchant_discounts edit' do
-  # before :each do
-  #   @merchant_1 = Merchant.create!(name: 'Hair Care')
-  #   @discount_1 = @merchant_1.discounts.create!(quantity: 1, percentage: 1)
-  #   @customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
-  #
-  #   visit edit_merchant_discount_path(@merchant_1.id, @discount_1.id)
-  # end
-
   describe 'As a visitor when i navigate to the merchant discount edit page' do
     it "I see that the discounts current attributes are pre-populated in the form
     When I change any/all of the information and click submit,

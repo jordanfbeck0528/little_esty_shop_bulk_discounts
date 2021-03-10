@@ -4,6 +4,8 @@ RSpec.describe 'invoices show' do
   before :each do
     @merchant_1 = Merchant.create!(name: 'Hair Care')
     @merchant2 = Merchant.create!(name: 'Jewelry')
+    @discount_1 = @merchant_1.discounts.create!(quantity: 10, percentage: 20)
+    @discount_2 = @merchant_1.discounts.create!(quantity: 13, percentage: 20)
 
     @item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: @merchant_1.id, status: 1)
     @item_2 = Item.create!(name: "Conditioner", description: "This makes your hair shiny", unit_price: 8, merchant_id: @merchant_1.id)
@@ -76,7 +78,6 @@ RSpec.describe 'invoices show' do
     expect(page).to have_content(@ii_1.quantity)
     expect(page).to have_content(@ii_1.unit_price)
     expect(page).to_not have_content(@ii_4.unit_price)
-
   end
 
   it "shows the total revenue for this invoice" do
@@ -93,43 +94,27 @@ RSpec.describe 'invoices show' do
       click_button "Update Invoice"
       expect(page).to have_content("cancelled")
       expect(page).to_not have_content("in progress")
-     end
-     # save_and_open_page
+    end
   end
-  # it 'should have status as a select field that updates the invoices status' do
-  #   within("#status-update-#{@i1.id}") do
-  #     select('cancelled', :from => 'invoice[status]')
-  #     expect(page).to have_button('Update Invoice')
-  #     click_button 'Update Invoice'
-  #
-  #     expect(current_path).to eq(admin_invoice_path(@i1))
-  #     expect(@i1.status).to eq('complete')
-  #   end
-  # end
+  it 'I see that the total revenue for my merchant includes bulk discounts in the calculation' do
+    visit merchant_invoice_path(@merchant_1, @invoice_1)
 
+    within(".row") do
+      expect(page).to have_content(@invoice_1.total_revenue_lost_to_discounts)
+    end
+  end
 
-  # it 'I see that the total revenue for my merchant includes bulk discounts in the calculation' do
-  #   within("#status-update-#{@i1.id}") do
-  #     select('cancelled', :from => 'invoice[status]')
-  #     expect(page).to have_button('Update Invoice')
-  #     click_button 'Update Invoice'
-  #
-  #     expect(current_path).to eq(admin_invoice_path(@i1))
-  #     expect(@i1.status).to eq('complete')
-  #   end
-  # end
+  it 'Next to each invoice item I see a link to the show page for the bulk discount that was applied (if any)' do
+    visit merchant_invoice_path(@merchant_1, @invoice_1)
+
+    within("#the-status-#{@ii_1.id}") do
+      expect(page).to have_content("N/A")
+    end
+
+    within("#the-status-#{@ii_11.id}") do
+      expect(page).to have_link(@ii_11.top_applicable_discount)
+      click_link(@ii_11.top_applicable_discount)
+    end
+    expect(current_path).to eq(merchant_discount_path(@merchant_1, @discount_1))
+  end
 end
-
-# As a merchant
-# When I visit my merchant invoice show page
-# Then I see that the total revenue for my merchant includes bulk discounts in the calculation
-
-
-
-# instance method to change return of total_revenue call
-# order each merchants discounts by (created_at desc)
-  # for each invoice_item whos merchant offers at least one discount,
-  #   select all @merchant.discounts.where(discount.quantity <= invoice_item.quantity)
-  #   .pluck(discount with qualifying quantity, and max percentage AS best_discount)
-  # if invoice_item.quantity >= best_discount.quantity
-  # update.total_revenue.where(invoice_item.price = item.price.unit_discount)

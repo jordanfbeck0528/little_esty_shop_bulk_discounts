@@ -50,17 +50,17 @@ RSpec.describe 'new merchant_discounts' do
 
       @merchant_1.discounts.destroy_all
 
-      expect(page).to have_field("Discount Percentage Threshhold:")
-      expect(page).to have_field("Discount Quantity Threshhold:")
+      expect(page).to have_field("Discount Percentage Threshhold Create:")
+      expect(page).to have_field("Discount Quantity Threshhold Create:")
 
       x = "15.0"
       y = "12"
 
-      fill_in "Discount Percentage Threshhold:", with: x
-      fill_in "Discount Quantity Threshhold:", with: y
+      fill_in "Discount Percentage Threshhold Create:", with: x
+      fill_in "Discount Quantity Threshhold Create:", with: y
 
       click_button("Create This Discount")
-  # save_and_open_page
+
       expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
 
       @merchant_1.discounts.each do |discount|
@@ -69,18 +69,18 @@ RSpec.describe 'new merchant_discounts' do
           expect(page).to have_content(y)
           expect(page).to have_content(discount.id)
         end
-        it "shows a flash message if not all sections are filled in" do
-
-          fill_in "Name", with: ""
-          fill_in "Description", with: "whatever"
-          fill_in "Unit price", with: "10"
-
-          click_button "Submit"
-      # require "pry"; binding.pry
-          expect(current_path).to eq(new_merchant_discount_path(@merchant_1.id))
-          expect(page).to have_content("All fields must be completed, please try again.")
-        end
       end
+    end
+    it "shows a flash message if not all sections are filled in" do
+      visit new_merchant_discount_path(@merchant_1.id)
+
+      fill_in "Discount Percentage Threshhold Create:", with: ""
+      fill_in "Discount Quantity Threshhold Create:", with: "5"
+
+      click_button "Create This Discount"
+
+      expect(current_path).to eq(new_merchant_discount_path(@merchant_1.id))
+      expect(page).to have_content("All fields must be completed, please try again.")
     end
   end
 end

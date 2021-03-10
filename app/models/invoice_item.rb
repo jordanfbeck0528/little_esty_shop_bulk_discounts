@@ -18,10 +18,11 @@ class InvoiceItem < ApplicationRecord
   end
 
   def applicable_discount
+
     discounts.where("#{self.quantity} >= quantity")
   end
 
-  def optimal_discount_limit_one
+  def top_applicable_discount
     applicable_discount.order(percentage: :desc).limit(1).pluck(:id).first
   end
 end

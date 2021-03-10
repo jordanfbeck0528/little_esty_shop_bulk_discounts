@@ -62,16 +62,16 @@ describe Merchant do
       @transaction_7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
 
     end
-    it "can list items ready to ship" do
-      expect(@merchant_1.ordered_items_to_ship).to eq([@item_1, @item_1, @item_3, @item_4, @item_7, @item_8, @item_4])
-    end
-    
-    it "shows a list of favorite customers" do
-      expected = @merchant_1.favorite_customers.map do |customer|
-        customer[:first_name]
-      end
-      expect(expected).to eq([@customer_1.first_name, @customer_6.first_name, @customer_2.first_name, @customer_3.first_name, @customer_4.first_name])
-    end
+    # it "can list items ready to ship" do
+    #   expect(@merchant_1.ordered_items_to_ship).to eq([@item_1, @item_1, @item_3, @item_4, @item_7, @item_8, @item_4])
+    # end
+
+    # it "shows a list of favorite customers" do
+    #   expected = @merchant_1.favorite_customers.map do |customer|
+    #     customer[:first_name]
+    #   end
+    #   expect(expected).to eq([@customer_1.first_name, @customer_6.first_name, @customer_2.first_name, @customer_3.first_name, @customer_4.first_name])
+    # end
 
     it "top_5_items" do
       expect(@merchant_1.top_5_items).to eq([@item_1, @item_2, @item_3, @item_8, @item_4])

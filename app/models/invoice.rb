@@ -17,11 +17,14 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue_lost_to_discounts
-    # require "pry"; binding.pry
     invoice_items.joins(:discounts)
     .where('invoice_items.quantity >= discounts.quantity')
     .group('invoice_items.item_id')
     .select('invoice_items.item_id, MAX(invoice_items.quantity * invoice_items.unit_price * discounts.percentage * 0.01)')
     .sum(&:max)
+  end
+
+  def total_revenue_with_discounts
+    total_revenue - total_revenue_lost_to_discounts
   end
 end

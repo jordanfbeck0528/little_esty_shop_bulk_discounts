@@ -3,12 +3,4 @@ class Discount < ApplicationRecord
                         :percentage
 
   belongs_to :merchant
-
-  def percentage_threshhold
-
-  end
-
-  def quantity_threshhold
-
-  end
 end
