@@ -60,7 +60,7 @@ RSpec.describe 'new merchant_discounts' do
       fill_in "Discount Quantity Threshhold:", with: y
 
       click_button("Create This Discount")
-  # save_and_open_page
+
       expect(current_path).to eq(merchant_discounts_path(@merchant_1.id))
 
       @merchant_1.discounts.each do |discount|
@@ -76,7 +76,7 @@ RSpec.describe 'new merchant_discounts' do
           fill_in "Discount Quantity Threshhold:", with: "5"
 
           click_button "Submit"
-          
+
           expect(current_path).to eq(new_merchant_discount_path(@merchant_1.id))
           expect(page).to have_content("All fields must be completed, please try again.")
         end

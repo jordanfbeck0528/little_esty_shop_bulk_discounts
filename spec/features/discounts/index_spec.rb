@@ -48,7 +48,7 @@ RSpec.describe 'merchant_discounts index' do
     it "I see all of my bulk discounts including their
       percentage discount and quantity thresholds
       And each bulk discount listed includes a link to its show page" do
-  # require "pry"; binding.pry
+
       within("#bulk_discounts-#{@discount_1.id}") do
         expect(page).to have_link("View your Discounts")
         expect(page).to have_content("Right now, with discounts id: #{@discount_1.id}, you can receive a 1.0% percent discount, on quantities of 1 or more!")
@@ -67,7 +67,6 @@ RSpec.describe 'merchant_discounts index' do
         #[Nager.Date API](https://date.nager.at/swagger/index.html)
 
       within(".row") do
-        # save_and_open_page
         expect(page).to have_content("Upcoming Holidays!")
         expect(page).to have_content("Next 3 Upcoming Holidays")
         expect("Memorial Day").to appear_before("Independence Day")
@@ -98,7 +97,6 @@ RSpec.describe 'merchant_discounts index' do
 
       expect(page).to_not have_content(1.0)
       expect(page).to_not have_content("1 or more!")
-      # save_and_open_page
     end
   end
 end

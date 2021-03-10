@@ -17,7 +17,6 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue_lost_to_discounts
-    # require "pry"; binding.pry
     invoice_items.joins(:discounts)
     .where('invoice_items.quantity >= discounts.quantity')
     .group('invoice_items.item_id')

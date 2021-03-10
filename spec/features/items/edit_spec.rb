@@ -42,7 +42,7 @@ describe "merchant items edit page" do
     fill_in "Unit price", with: "15"
 
     click_button "Submit"
-# require "pry"; binding.pry
+
     expect(current_path).to eq(merchant_item_path(@merchant_1, @item_1))
     expect(page).to have_content("All fields must be completed, please try again.")
   end
