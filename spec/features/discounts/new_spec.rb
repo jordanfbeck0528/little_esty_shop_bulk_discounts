@@ -70,13 +70,13 @@ RSpec.describe 'new merchant_discounts' do
           expect(page).to have_content(discount.id)
         end
         it "shows a flash message if not all sections are filled in" do
+          visit (merchant_discounts_path(@merchant_1.id))
 
-          fill_in "Name", with: ""
-          fill_in "Description", with: "whatever"
-          fill_in "Unit price", with: "10"
+          fill_in "Discount Percentage Threshhold:", with: ""
+          fill_in "Discount Quantity Threshhold:", with: "5"
 
           click_button "Submit"
-      # require "pry"; binding.pry
+          
           expect(current_path).to eq(new_merchant_discount_path(@merchant_1.id))
           expect(page).to have_content("All fields must be completed, please try again.")
         end
